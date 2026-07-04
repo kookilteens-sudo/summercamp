@@ -24,8 +24,8 @@
   },
   "scheduleText": "추후 공개 예정!",
   "playlists": [
-    "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/videoseries?si=IS7k48HAYA_D21dq&amp;list=PLbgUYpyqh5KWo-RSbpTmkaw5X1UvpDFZo\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
-    "https://www.youtube.com/embed/videoseries?si=quZ_04vxwIeIXFW2&amp;list=PLbgUYpyqh5KVtqXhF8oF2xyboptyuuyI_\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin"
+    "<iframe width=",
+    "https://www.youtube.com/embed/videoseries?si=quZ_04vxwIeIXFW2&list=PLbgUYpyqh5KVtqXhF8oF2xyboptyuuyI_"
   ],
   "churchIntro": "국일 청소년부교회는\n대한예수교장로회 통합 측으로\n하나님 안에서 즐겁게 예배하고\n함께 웃고\n함께 성장하는 공동체입니다!😄",
   "links": {
