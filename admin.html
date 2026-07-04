@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>초대장 관리자 - Apple 설정 스타일</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background: #f5f5f7; }
+        .card { background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); padding: 24px; }
+        .input-apple { width: 100%; background: #fbfbfd; border: 1px solid #d2d2d7; border-radius: 12px; padding: 12px; transition: all 0.2s; }
+        .input-apple:focus { border-color: #0071e3; outline: none; box-shadow: 0 0 0 4px rgba(0,113,227,0.1); }
+        label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; color: #86868b; }
+        .btn-blue { background: #0071e3; color: white; padding: 12px 24px; border-radius: 12px; font-weight: 600; }
+        .preview-box { background: #eee; border-radius: 12px; overflow: hidden; margin-top: 10px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div class="max-w-4xl mx-auto">
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-bold tracking-tight">⚙️ 초대장 설정</h1>
+            <div class="flex gap-2">
+                <button onclick="document.getElementById('load-input').click()" class="bg-gray-200 px-4 py-2 rounded-xl text-sm font-semibold">기존 설정 불러오기</button>
+                <input type="file" id="load-input" class="hidden" accept=".json" onchange="loadConfigFile(this)">
+                <button onclick="window.open('index.html', '_blank')" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-xl text-sm font-semibold">미리보기</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Hero -->
+            <div class="card space-y-4">
+                <h3 class="font-bold text-lg mb-2">메인(Hero) 및 디데이</h3>
+                <div><label>메인 제목</label><input id="hero-title" class="input-apple"></div>
+                <div><label>부제목</label><input id="hero-subtitle" class="input-apple"></div>
+                <div><label>수련회 시작일 (디데이용)</label><input type="date" id="hero-date" class="input-apple"></div>
+            </div>
+
+            <!-- Welcome -->
+            <div class="card space-y-4">
+                <h3 class="font-bold text-lg mb-2">환영 문구</h3>
+                <textarea id="welcome-text" class="input-apple h-32"></textarea>
+            </div>
+
+            <!-- Info -->
+            <div class="card col-span-1 md:col-span-2 space-y-4">
+                <h3 class="font-bold text-lg mb-2">행사 정보 및 지도</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div><label>행사명</label><input id="info-name" class="input-apple"></div>
+                    <div><label>날짜 안내</label><input id="info-date" class="input-apple"></div>
+                    <div><label>장소</label><input id="info-loc" class="input-apple"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label>Google Maps Embed URL</label>
+                        <input id="info-map" class="input-apple" oninput="updateMapPreview(this.value)">
+                        <div id="map-preview" class="preview-box">지도 미리보기</div>
+                    </div>
+                    <div>
+                        <label>네이버 지도 길찾기 URL</label>
+                        <input id="info-naver" class="input-apple">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Files -->
+            <div class="card space-y-6">
+                <h3 class="font-bold text-lg mb-2">이미지 업로드 (미리보기)</h3>
+                <div>
+                    <label>포스터 (poster.jpg)</label>
+                    <input type="file" onchange="previewImg(this, 'poster-p')" class="text-xs">
+                    <div class="preview-box"><img id="poster-p" class="max-h-40"></div>
+                </div>
+                <div>
+                    <label>일정표 (schedule.jpg)</label>
+                    <input type="file" onchange="previewImg(this, 'schedule-p')" class="text-xs">
+                    <div class="preview-box"><img id="schedule-p" class="max-h-40"></div>
+                </div>
+                <div>
+                    <label>신청 QR (qr.png)</label>
+                    <input type="file" onchange="previewImg(this, 'qr-p')" class="text-xs">
+                    <div class="preview-box"><img id="qr-p" class="max-h-20"></div>
+                </div>
+            </div>
+
+            <!-- Video -->
+            <div class="card space-y-4">
+                <h3 class="font-bold text-lg mb-2">홍보 영상</h3>
+                <div>
+                    <label>방식 선택</label>
+                    <select id="video-type" class="input-apple" onchange="toggleVideoInput(this.value)">
+                        <option value="youtube">유튜브 링크</option>
+                        <option value="local">MP4 파일 직접 업로드</option>
+                    </select>
+                </div>
+                <div id="yt-input">
+                    <label>유튜브 Embed URL</label>
+                    <input id="video-url" class="input-apple" placeholder="https://www.youtube.com/embed/...">
+                </div>
+                <div id="local-input" class="hidden">
+                    <label>MP4 파일 선택</label>
+                    <input type="file" accept="video/mp4" onchange="previewVideo(this)" class="text-xs">
+                    <video id="video-p" class="w-full mt-2 hidden" controls></video>
+                </div>
+            </div>
+
+            <!-- Playlists -->
+            <div class="card col-span-1 md:col-span-2">
+                <h3 class="font-bold text-lg mb-4">찬양 플레이리스트 관리</h3>
+                <div id="playlist-container" class="space-y-2 mb-4"></div>
+                <button onclick="addPlaylistRow('')" class="text-blue-600 text-sm font-bold">+ 링크 추가</button>
+            </div>
+
+            <!-- Final Links -->
+            <div class="card col-span-1 md:col-span-2 space-y-4">
+                <h3 class="font-bold text-lg mb-2">기타 정보 및 링크</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label>일정 안내 문구</label><input id="schedule-txt" class="input-apple"></div>
+                    <div><label>인스타그램 링크</label><input id="link-insta" class="input-apple"></div>
+                    <div><label>신청서 링크 (구글폼 등)</label><input id="link-apply" class="input-apple"></div>
+                    <div class="md:col-span-2"><label>교회 소개</label><textarea id="intro-txt" class="input-apple h-24"></textarea></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 pb-20">
+            <button onclick="downloadJSON()" class="btn-blue w-full shadow-xl transform active:scale-95 transition-all">설정 저장 및 config.json 다운로드</button>
+            <p class="text-center text-xs text-gray-400 mt-4">다운로드한 파일을 index.html과 같은 위치에 저장하세요.</p>
+        </div>
+    </div>
+
+    <script>
+        // 초기 데이터 로드 (기본값)
+        let config = {};
+
+        function addPlaylistRow(val) {
+            const container = document.getElementById('playlist-container');
+            const div = document.createElement('div');
+            div.className = "flex gap-2";
+            div.innerHTML = `<input class="input-apple playlist-item" value="${val}"><button onclick="this.parentElement.remove()" class="text-red-500 px-2">✕</button>`;
+            container.appendChild(div);
+        }
+
+        function toggleVideoInput(type) {
+            document.getElementById('yt-input').classList.toggle('hidden', type !== 'youtube');
+            document.getElementById('local-input').classList.toggle('hidden', type !== 'local');
+        }
+
+        function previewImg(input, targetId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => document.getElementById(targetId).src = e.target.result;
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function previewVideo(input) {
+            if (input.files && input.files[0]) {
+                const video = document.getElementById('video-p');
+                video.src = URL.createObjectURL(input.files[0]);
+                video.classList.remove('hidden');
+            }
+        }
+
+        function updateMapPreview(url) {
+            const div = document.getElementById('map-preview');
+            if(url.includes('http')) div.innerHTML = `<iframe src="${url}" class="w-full h-full border-0"></iframe>`;
+        }
+
+        function downloadJSON() {
+            const data = {
+                hero: {
+                    title: document.getElementById('hero-title').value,
+                    subtitle: document.getElementById('hero-subtitle').value,
+                    targetDate: document.getElementById('hero-date').value
+                },
+                welcomeText: document.getElementById('welcome-text').value,
+                info: {
+                    eventName: document.getElementById('info-name').value,
+                    date: document.getElementById('info-date').value,
+                    location: document.getElementById('info-loc').value,
+                    mapEmbedUrl: document.getElementById('info-map').value,
+                    naverMapUrl: document.getElementById('info-naver').value
+                },
+                images: {
+                    poster: "poster.jpg",
+                    schedule: "schedule.jpg",
+                    qr: "qr.png"
+                },
+                video: {
+                    type: document.getElementById('video-type').value,
+                    url: document.getElementById('video-url').value,
+                    localFile: "video.mp4"
+                },
+                scheduleText: document.getElementById('schedule-txt').value,
+                playlists: Array.from(document.querySelectorAll('.playlist-item')).map(i => i.value),
+                churchIntro: document.getElementById('intro-txt').value,
+                links: {
+                    instagram: document.getElementById('link-insta').value,
+                    apply: document.getElementById('link-apply').value
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = "config.json";
+            a.click();
+        }
+
+        function loadConfigFile(input) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const data = JSON.parse(e.target.result);
+                document.getElementById('hero-title').value = data.hero.title;
+                document.getElementById('hero-subtitle').value = data.hero.subtitle;
+                document.getElementById('hero-date').value = data.hero.targetDate;
+                document.getElementById('welcome-text').value = data.welcomeText;
+                document.getElementById('info-name').value = data.info.eventName;
+                document.getElementById('info-date').value = data.info.date;
+                document.getElementById('info-loc').value = data.info.location;
+                document.getElementById('info-map').value = data.info.mapEmbedUrl;
+                document.getElementById('info-naver').value = data.info.naverMapUrl;
+                document.getElementById('video-type').value = data.video.type;
+                document.getElementById('video-url').value = data.video.url;
+                document.getElementById('schedule-txt').value = data.scheduleText;
+                document.getElementById('link-insta').value = data.links.instagram;
+                document.getElementById('link-apply').value = data.links.apply;
+                document.getElementById('intro-txt').value = data.churchIntro;
+                
+                document.getElementById('playlist-container').innerHTML = '';
+                data.playlists.forEach(p => addPlaylistRow(p));
+                updateMapPreview(data.info.mapEmbedUrl);
+                toggleVideoInput(data.video.type);
+            };
+            reader.readAsText(input.files[0]);
+        }
+    </script>
+</body>
+</html>

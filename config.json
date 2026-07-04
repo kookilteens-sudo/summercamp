@@ -1,0 +1,35 @@
+{
+  "hero": {
+    "title": "🌊WELCOME!🌊",
+    "subtitle": "너를 환영해! 올 여름, 가장 특별한 시간을 함께 하자!",
+    "targetDate": "2026-08-06"
+  },
+  "welcomeText": "처음이어도 괜찮아요🥰\n\n친구들과 함께 즐기고,\n맛있는 음식도 먹고,\n신나는 게임과 찬양,\n그리고 하나님을 만나는 특별한 시간이 준비되어 있어요!",
+  "info": {
+    "eventName": "2026 국일 청소년부교회 여름수련회",
+    "date": "2026.08.06(목)~08(토), 2박 3일",
+    "location": "경기 광주 곤지암교회",
+    "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m5!3m3!1m2!1s0x35635501ad2d3791%3A0xf029a141d10e15a8!2z6rOk7KeA7JWU6rWQ7ZqM!5e0!3m2!1sko!2skr!4v1783204562550!5m2!1sko!2skr",
+    "naverMapUrl": "https://naver.me/x0XwAqJG"
+  },
+  "images": {
+    "poster": "poster.jpg",
+    "schedule": "schedule.jpg",
+    "qr": "qr.png"
+  },
+  "video": {
+    "type": "local",
+    "url": "",
+    "localFile": "video.mp4"
+  },
+  "scheduleText": "추후 공개 예정!",
+  "playlists": [
+    "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/videoseries?si=IS7k48HAYA_D21dq&amp;list=PLbgUYpyqh5KWo-RSbpTmkaw5X1UvpDFZo\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+    "https://www.youtube.com/embed/videoseries?si=quZ_04vxwIeIXFW2&amp;list=PLbgUYpyqh5KVtqXhF8oF2xyboptyuuyI_\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin"
+  ],
+  "churchIntro": "국일 청소년부교회는\n대한예수교장로회 통합 측으로\n하나님 안에서 즐겁게 예배하고\n함께 웃고\n함께 성장하는 공동체입니다!😄",
+  "links": {
+    "instagram": "https://www.instagram.com/kook1il._.teenagers?igsh=aHdnZXkwNWdwNHp0&utm_source=qr",
+    "apply": "https://forms.gle/XzYggr6suUY8x9bE6"
+  }
+}

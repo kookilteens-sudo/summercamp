@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 여름수련회 초대장</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background: #f5f5f7; color: #1d1d1f; word-break: keep-all; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .reveal { opacity: 0; transform: translateY(30px); }
+        .hero-grad { background: linear-gradient(180deg, #e0f2fe 0%, #f5f5f7 100%); }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-grad min-h-screen flex flex-col justify-center items-center text-center px-6">
+        <div id="dday-tag" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold mb-6 reveal">D-Day 계산중...</div>
+        <h1 id="hero-title" class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight reveal"></h1>
+        <p id="hero-subtitle" class="text-xl opacity-60 mb-12 reveal"></p>
+        <div class="reveal animate-bounce mt-10">
+            <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </section>
+
+    <div class="max-w-md mx-auto px-5 space-y-20 pb-32">
+        <!-- Welcome Message -->
+        <section class="reveal glass rounded-[40px] p-10 text-center shadow-xl">
+            <p id="welcome-text" class="text-lg leading-relaxed whitespace-pre-line font-medium"></p>
+        </section>
+
+        <!-- Event Info & Map -->
+        <section class="reveal space-y-6">
+            <div class="glass rounded-[40px] p-8 shadow-lg">
+                <h2 id="info-eventName" class="text-2xl font-bold mb-6 text-blue-600 italic"></h2>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <span class="mr-3">🗓️</span>
+                        <div><p class="font-bold">일시</p><p id="info-date" class="text-gray-500"></p></div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">📍</span>
+                        <div><p class="font-bold">장소</p><p id="info-location" class="text-gray-500"></p></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rounded-[30px] overflow-hidden shadow-2xl h-[300px] glass">
+                <iframe id="map-iframe" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <a id="naver-map-btn" href="#" target="_blank" class="flex items-center justify-center w-full bg-[#03C75A] text-white py-5 rounded-3xl font-bold text-lg shadow-lg hover:scale-[1.02] transition-transform">
+                네이버 지도에서 길찾기
+            </a>
+        </section>
+
+        <!-- Main Poster -->
+        <section class="reveal">
+            <img id="poster-img" src="" class="w-full rounded-[40px] shadow-2xl" alt="포스터">
+        </section>
+
+        <!-- Schedule -->
+        <section class="reveal glass rounded-[40px] p-8 text-center">
+            <h3 class="text-xl font-bold mb-4 italic">📅 일정 안내</h3>
+            <p id="schedule-text" class="text-gray-500 mb-6"></p>
+            <img id="schedule-img" src="" class="w-full rounded-2xl shadow-sm hidden" alt="일정표">
+        </section>
+
+        <!-- Promo Video -->
+        <section id="video-section" class="reveal space-y-4">
+            <h3 class="text-2xl font-bold text-center italic">🎥 홍보 영상</h3>
+            <div id="video-container" class="rounded-[30px] overflow-hidden shadow-2xl aspect-video bg-black">
+                <!-- Video inserted here by JS -->
+            </div>
+        </section>
+
+        <!-- Playlists -->
+        <section class="reveal space-y-6">
+            <h3 class="text-2xl font-bold text-center italic">🎶 수련회 찬양</h3>
+            <div id="playlist-list" class="space-y-4"></div>
+        </section>
+
+        <!-- Church Intro -->
+        <section class="reveal glass rounded-[40px] p-10 text-center">
+            <p id="church-intro" class="leading-relaxed whitespace-pre-line font-medium"></p>
+            <div class="mt-8">
+                <a id="insta-link" href="#" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white rounded-2xl font-bold shadow-lg">
+                    인스타그램 보러가기
+                </a>
+            </div>
+        </section>
+
+        <!-- Application & QR -->
+        <section class="reveal glass rounded-[40px] p-10 text-center border-2 border-blue-100 shadow-2xl">
+            <h3 class="text-2xl font-bold mb-8 italic">JOIN US!</h3>
+            <div class="bg-white p-6 rounded-3xl inline-block mb-8 shadow-inner">
+                <img id="qr-img" src="" class="w-40 h-40" alt="QR">
+            </div>
+            <a id="apply-btn" href="#" target="_blank" class="block w-full bg-blue-600 text-white py-5 rounded-3xl font-bold text-xl shadow-lg">
+                신청서 작성하기
+            </a>
+        </section>
+
+        <footer class="reveal py-20 text-center opacity-40 text-sm">
+            <p>2026 국일 청소년부교회</p>
+            <p class="mt-2">All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+async function init() {
+    const data = {
+        "hero": {
+            "title": "🌊WELCOME!🌊",
+            "subtitle": "너를 환영해! 올 여름, 가장 특별한 시간을 함께 하자!",
+            "targetDate": "2026-08-06"
+        },
+        "welcomeText": "처음이어도 괜찮아요🥰\n\n친구들과 함께 즐기고,\n맛있는 음식도 먹고,\n신나는 게임과 찬양,\n그리고 하나님을 만나는 특별한 시간이 준비되어 있어요!",
+        "info": {
+            "eventName": "2026 국일 청소년부교회 여름수련회",
+            "date": "2026.08.06(목)~08(토), 2박 3일",
+            "location": "경기 광주 곤지암교회",
+            "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.8351!2d127.2882!3d37.3585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDIxJzMwLjYiTiAxMjfCsDE3JzE3LjUiRQ!5e0!3m2!1sko!2skr!4v1620000000000",
+            "naverMapUrl": "https://naver.me/x0XwAqJG"
+        },
+        "images": {
+            "poster": "poster.jpg",
+            "schedule": "schedule.jpg",
+            "qr": "qr.png"
+        },
+        "video": {
+            "type": "local",
+            "url": "",
+            "localFile": "video.mp4"
+        },
+        "scheduleText": "추후 공개 예정!",
+        "playlists": [
+            "https://www.youtube.com/embed/videoseries?list=PLbgUYpyqh5KWo-RSbpTmkaw5X1UvpDFZo",
+            "https://www.youtube.com/embed/videoseries?list=PLbgUYpyqh5KVtqXhF8oF2xyboptyuuyI_"
+        ],
+        "churchIntro": "국일 청소년부교회는\n대한예수교장로회 통합 측으로\n하나님 안에서 즐겁게 예배하고\n함께 웃고\n함께 성장하는 공동체입니다.",
+        "links": {
+            "instagram": "https://www.instagram.com/kook1il._.teenagers",
+            "apply": "https://forms.gle/XzYggr6suUY8x9bE6"
+        }
+    };
+    render(data);
+    startAnimations();
+}
+
+        function render(data) {
+            // D-Day
+            const target = new Date(data.hero.targetDate);
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+            const ddayTag = document.getElementById('dday-tag');
+            if(diff > 0) ddayTag.innerText = `D-${diff}`;
+            else if(diff === 0) ddayTag.innerText = `TODAY!`;
+            else ddayTag.innerText = `진행 중 🔥`;
+
+            // Text content
+            document.getElementById('hero-title').innerText = data.hero.title;
+            document.getElementById('hero-subtitle').innerText = data.hero.subtitle;
+            document.getElementById('welcome-text').innerText = data.welcomeText;
+            document.getElementById('info-eventName').innerText = data.info.eventName;
+            document.getElementById('info-date').innerText = data.info.date;
+            document.getElementById('info-location').innerText = data.info.location;
+            document.getElementById('schedule-text').innerText = data.scheduleText;
+            document.getElementById('church-intro').innerText = data.churchIntro;
+
+            // Links & Images
+            document.getElementById('map-iframe').src = data.info.mapEmbedUrl;
+            document.getElementById('naver-map-btn').href = data.info.naverMapUrl;
+            document.getElementById('poster-img').src = data.images.poster;
+            if(data.images.schedule) {
+                const sImg = document.getElementById('schedule-img');
+                sImg.src = data.images.schedule;
+                sImg.classList.remove('hidden');
+            }
+            document.getElementById('qr-img').src = data.images.qr;
+            document.getElementById('insta-link').href = data.links.instagram;
+            document.getElementById('apply-btn').href = data.links.apply;
+
+            // Video logic
+            const videoContainer = document.getElementById('video-container');
+            if(data.video.type === 'youtube') {
+                videoContainer.innerHTML = `<iframe src="${data.video.url}" class="w-full h-full border-0" allowfullscreen></iframe>`;
+            } else {
+                videoContainer.innerHTML = `<video src="${data.video.localFile}" controls class="w-full h-full object-cover"></video>`;
+            }
+
+            // Playlists
+            const pList = document.getElementById('playlist-list');
+            data.playlists.forEach(url => {
+                const div = document.createElement('div');
+                div.className = "rounded-3xl overflow-hidden shadow-lg aspect-video";
+                div.innerHTML = `<iframe src="${url}" class="w-full h-full border-0" allowfullscreen></iframe>`;
+                pList.appendChild(div);
+            });
+        }
+
+        function startAnimations() {
+            gsap.utils.toArray('.reveal').forEach(elem => {
+                gsap.to(elem, {
+                    scrollTrigger: { trigger: elem, start: "top 90%" },
+                    opacity: 1, y: 0, duration: 1, ease: "power2.out"
+                });
+            });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
