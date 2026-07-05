@@ -14,12 +14,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // 1. 데이터 로드
 async function loadConfig() {
-    const saved = localStorage.getItem('retreat_config');
-    if (saved) {
-        currentConfig = JSON.parse(saved);
-    } else {
-        const response = await fetch('./config.json');
-        currentConfig = await response.json();
+    try {
+        const saved = localStorage.getItem('retreat_config');
+        if (saved) {
+            currentConfig = JSON.parse(saved);
+        } else {
+            const response = await fetch('./config.json');
+            if (!response.ok) throw new Error('파일 없음');
+            currentConfig = await response.json();
+        }
+    } catch (e) {
+        // config.json이 없거나 에러 날 경우 기본 데이터 생성
+        console.log("기본 설정으로 시작합니다.");
+        currentConfig = {
+            metadata: { title: "수련회 초대장" },
+            cards: []
+        };
     }
 }
 
@@ -237,49 +247,61 @@ function handleDrop(e) {
 
 // 8. 초기화 및 저장 버튼
 function initEventListeners() {
-    document.getElementById('btnSave').onclick = () => {
-        localStorage.setItem('retreat_config', JSON.stringify(currentConfig));
-        alert('성공적으로 저장되었습니다! 미리보기 창에서 확인하세요.');
-    };
+    // 1. 카드 추가 버튼 (+)
+    const btnAddCard = document.getElementById('btnAddCard');
+    const modal = document.getElementById('addCardModal');
+    
+    if (btnAddCard) {
+        btnAddCard.onclick = () => {
+            console.log("추가 버튼 클릭됨"); // 디버깅용
+            modal.style.display = 'flex';
+        };
+    }
 
-    document.getElementById('btnDownload').onclick = () => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentConfig, null, 2));
-        const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href",     dataStr);
-        downloadAnchorNode.setAttribute("download", "config.json");
-        document.body.appendChild(downloadAnchorNode);
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
-    };
-
-    document.getElementById('btnReset').onclick = () => {
-        if (confirm('모든 설정이 초기화됩니다. 계속하시겠습니까?')) {
-            localStorage.removeItem('retreat_config');
-            location.reload();
-        }
-    };
-
-    document.getElementById('btnAddCard').onclick = () => {
-        document.getElementById('addCardModal').style.display = 'flex';
-    };
-
-    // 모달 내 카드 타입 클릭
+    // 2. 모달 내 카드 타입 버튼들
     document.querySelectorAll('.card-type-grid button').forEach(btn => {
         btn.onclick = () => {
             const type = btn.dataset.type;
             const newCard = {
-                id: Date.now().toString(),
+                id: "card-" + Date.now(),
                 type: type,
                 visible: true,
                 order: currentConfig.cards.length,
-                style: { backgroundColor: "#ffffff", textColor: "#1d1d1f", animation: "fade-up" },
+                style: { backgroundColor: "#ffffff", textColor: "#1d1d1f", animation: "fade-up", padding: "60px 20px" },
                 data: { title: `새 ${type} 카드`, content: "내용을 입력하세요." }
             };
+            
+            // 데이터 구조에 따라 초기값 보정
+            if(type === 'Hero') newCard.data = { welcome: "WELCOME", title: "새로운 시작", subtitle: "문구를 입력하세요", targetDate: "2026-08-01", backgroundImage: "" };
+            if(type === 'Info') newCard.data = { date: "일시 입력", location: "장소 입력", googleMapsEmbedUrl: "", naverMapLink: "" };
+
             currentConfig.cards.push(newCard);
-            document.getElementById('addCardModal').style.display = 'none';
+            modal.style.display = 'none';
             renderCardList();
             editCard(newCard.id);
         };
     });
 
-    document.querySelector
+    // 3. 모달 닫기
+    const btnClose = document.querySelector('.btn-close-modal');
+    if (btnClose) {
+        btnClose.onclick = () => { modal.style.display = 'none'; };
+    }
+
+    // 4. 저장 버튼들
+    document.getElementById('btnSave').onclick = () => {
+        localStorage.setItem('retreat_config', JSON.stringify(currentConfig));
+        alert('브라우저에 임시 저장되었습니다! [JSON 저장]을 눌러 파일을 다운로드해 배포하세요.');
+    };
+    
+    // 5. 다운로드 버튼
+    document.getElementById('btnDownload').onclick = () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentConfig, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "config.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
+}
