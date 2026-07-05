@@ -1,117 +1,176 @@
 {
-  "siteSettings": {
-    "title": "2026 국일 청소년부 여름수련회",
-    "description": "Love is... 당신을 초대합니다.",
-    "theme": "light",
-    "primaryColor": "#0071e3",
-    "ogImage": "assets/images/poster.jpg"
+  "metadata": {
+    "title": "2026 국일 청소년부 여름 수련회",
+    "description": "Love is... 우리를 향한 진짜 사랑을 경험하는 시간",
+    "ogImage": "assets/images/og-image.jpg",
+    "favicon": "assets/images/favicon.ico",
+    "themeColor": "#6366f1",
+    "fontFamily": "Pretendard",
+    "darkMode": false
+  },
+  "settings": {
+    "googleAnalyticsId": "",
+    "kakaoJavascriptKey": "YOUR_KAKAO_KEY",
+    "copyLinkMessage": "수련회 초대장이 도착했습니다! 💌"
   },
   "cards": [
     {
-      "id": "card_hero_01",
-      "type": "hero",
+      "id": "hero-1719888000000",
+      "type": "Hero",
       "visible": true,
+      "order": 0,
+      "style": {
+        "backgroundColor": "transparent",
+        "textColor": "#ffffff",
+        "backgroundImage": "assets/images/hero-bg.jpg",
+        "overlayOpacity": 0.4,
+        "animation": "fade-up"
+      },
       "data": {
-        "title": "WELCOME!",
-        "subtitle": "2026 국일 청소년부교회 여름 수련회 초청장 💌",
-        "mainTitle": "Love is...",
+        "welcome": "WELCOME",
+        "subtitle": "2026 국일 청소년부 여름 수련회 초청장 💌",
+        "title": "Love is...",
         "targetDate": "2026-08-06",
-        "bgGradient": "linear-gradient(180deg, #e0f2fe 0%, #f5f5f7 100%)"
+        "showDday": true
       }
     },
     {
-      "id": "card_text_01",
-      "type": "text",
+      "id": "text-1719888000001",
+      "type": "Text",
       "visible": true,
+      "order": 1,
+      "style": {
+        "backgroundColor": "#ffffff",
+        "textColor": "#1d1d1f",
+        "padding": "60px 20px",
+        "textAlign": "center",
+        "animation": "fade-up"
+      },
       "data": {
         "title": "안녕!",
-        "body": "안녕! 요즘 날씨도 더운데 학원 다니고 공부하느라 진짜 고생이 많다! ㅠㅠ\n\n다름이 아니라 올여름 스트레스 싹- 날려버릴\n역대급 청소년부 여름수련회\n'Love is...'\n가 열려서 너를 초대하고 싶어! 🥳",
-        "textAlign": "center"
+        "content": "안녕! 요즘 날씨도 더운데 학원 다니고 공부하느라 진짜 고생이 많다! ㅠㅠ\n\n다름이 아니라 올여름 스트레스 싹- 날려버릴\n역대급 청소년부 여름수련회\n**Love is...**\n가 열려서 너를 초대하고 싶어! 🥳"
       }
     },
     {
-      "id": "card_text_02",
-      "type": "text",
+      "id": "text-1719888000002",
+      "type": "Text",
       "visible": true,
+      "order": 2,
+      "style": {
+        "backgroundColor": "#f5f5f7",
+        "textColor": "#1d1d1f",
+        "padding": "60px 20px",
+        "textAlign": "left",
+        "animation": "fade-up"
+      },
       "data": {
         "title": "💦 이번 수련회 라인업 미리보기",
-        "body": "❤️ 꿀잼 보장! 스케일이 다른 서바이벌 물놀이\n❤️ 내가 성경 속 주인공이 되는 비블리오 드라마\n❤️ 교회 전역을 누비는 방탈출게임 사랑 레이스~\n❤️ 세상 하나뿐인 나만의 굿즈 키링 만들기까지!\n\n맛있는 고기(바비큐 파티)도 실컷 먹고\n우리를 향한 진짜 사랑을 경험하는 힐링 시간이 될 거야.\n\n망설이지 말고 나랑 같이 가자!\n내가 옆에서 진짜 재밌게 챙겨줄게. 😉",
-        "textAlign": "left"
+        "content": "❤️ 꿀잼 보장! 스케일이 다른 서바이벌 물놀이\n❤️ 내가 성경 속 주인공이 되는 비블리오 드라마\n❤️ 교회 전역을 누비는 방탈출게임 사랑 레이스~\n❤️ 세상 하나뿐인 나만의 굿즈 키링 만들기까지!\n\n맛있는 고기(바비큐 파티)도 실컷 먹고\n우리를 향한 진짜 사랑을 경험하는 힐링 시간이 될 거야.\n\n망설이지 말고 나랑 같이 가자!\n내가 옆에서 진짜 재밌게 챙겨줄게. 😉"
       }
     },
     {
-      "id": "card_apply_01",
-      "type": "application",
+      "id": "app-1719888000003",
+      "type": "Application",
       "visible": true,
+      "order": 3,
+      "style": {
+        "backgroundColor": "#ffffff",
+        "primaryColor": "#6366f1",
+        "animation": "zoom-in"
+      },
       "data": {
         "title": "10초 만에 신청하기",
-        "body": "아래 링크 또는 QR코드를 통해 신청하세요.",
+        "description": "아래 링크 또는 QR코드로 신청하세요.",
+        "qrImage": "assets/images/qr-code.png",
         "buttonText": "수련회 같이 가기",
-        "link": "https://forms.gle/XzYggr6suUY8x9bE6",
-        "qrImage": "assets/images/qr.png"
+        "buttonLink": "https://forms.google.com/your-form-id"
       }
     },
     {
-      "id": "card_info_01",
-      "type": "info",
+      "id": "info-1719888000004",
+      "type": "Info",
       "visible": true,
+      "order": 4,
+      "style": {
+        "backgroundColor": "#ffffff",
+        "animation": "fade-up"
+      },
       "data": {
-        "title": "수련회 안내",
-        "details": [
-          { "label": "🗓️ 일시", "value": "8/6(목) ~ 8/8(토)" },
-          { "label": "📍 장소", "value": "경기 광주 곤지암교회" }
-        ],
-        "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.8351!2d127.2882!3d37.3585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDIxJzMwLjYiTiAxMjfCsDE3JzE3LjUiRQ!5e0!3m2!1sko!2skr!4v1620000000000",
-        "naverMapUrl": "https://naver.me/x0XwAqJG"
+        "date": "8/6(목) ~ 8/8(토)",
+        "location": "경기 광주 곤지암교회",
+        "googleMapsEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.570188613467!2d127.345!3d37.35!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDIxJzAwLjAiTiAxMjfCsDIwJzQyLjAiRQ!5e0!3m2!1sko!2skr!4v1719888000000!5m2!1sko!2skr",
+        "naverMapLink": "https://map.naver.com/v5/search/곤지암교회"
       }
     },
     {
-      "id": "card_poster_01",
-      "type": "poster",
+      "id": "poster-1719888000005",
+      "type": "Poster",
       "visible": true,
+      "order": 5,
+      "style": {
+        "animation": "fade-up"
+      },
       "data": {
-        "image": "assets/images/poster.jpg"
+        "imageUrl": "assets/images/poster.jpg",
+        "alt": "수련회 포스터"
       }
     },
     {
-      "id": "card_schedule_01",
-      "type": "schedule",
+      "id": "schedule-1719888000006",
+      "type": "Schedule",
       "visible": true,
+      "order": 6,
+      "style": {
+        "backgroundColor": "#f5f5f7",
+        "animation": "fade-up"
+      },
       "data": {
-        "infoText": "상세 일정표는 7월 말 공개됩니다!",
-        "image": "assets/images/schedule.jpg"
+        "notice": "7월 말 상세 일정이 공개됩니다!",
+        "imageUrl": "assets/images/schedule.jpg"
       }
     },
     {
-      "id": "card_video_01",
-      "type": "video",
+      "id": "video-1719888000007",
+      "type": "Video",
       "visible": true,
+      "order": 7,
+      "style": {
+        "animation": "fade-up"
+      },
       "data": {
         "title": "두근두근 미리보는 여름수련회",
         "videoType": "youtube",
-        "src": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
       }
     },
     {
-      "id": "card_playlist_01",
-      "type": "playlist",
+      "id": "playlist-1719888000008",
+      "type": "Playlist",
       "visible": true,
+      "order": 8,
+      "style": {
+        "backgroundColor": "#1d1d1f",
+        "textColor": "#ffffff"
+      },
       "data": {
         "title": "이런 찬양을 들을 거야!",
         "items": [
-          "https://www.youtube.com/embed/videoseries?list=PLbgUYpyqh5KWo-RSbpTmkaw5X1UvpDFZo",
-          "https://www.youtube.com/embed/videoseries?list=PLbgUYpyqh5KVtqXhF8oF2xyboptyuuyI_"
+          { "id": "p1", "title": "Way Maker", "url": "https://youtube.com/watch?v=iJCV_2H9xD0" },
+          { "id": "p2", "title": "원하고 바라고 기도합니다", "url": "https://youtube.com/watch?v=S7p8-q_nB0U" }
         ]
       }
     },
     {
-      "id": "card_intro_01",
-      "type": "intro",
+      "id": "intro-1719888000009",
+      "type": "Intro",
       "visible": true,
+      "order": 9,
+      "style": {
+        "backgroundColor": "#ffffff"
+      },
       "data": {
-        "title": "국일 청소년부",
-        "body": "국일 청소년부교회는 대한예수교장로회 통합 소속으로 하나님 안에서 즐겁게 예배하고 함께 성장하는 공동체입니다.",
-        "instaLink": "https://www.instagram.com/kook1il._.teenagers"
+        "content": "국일교회 청소년부는 사랑 안에서 함께 성장하는 공동체입니다.",
+        "instagram": "https://instagram.com/your_church_youth"
       }
     }
   ]

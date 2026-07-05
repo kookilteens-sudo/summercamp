@@ -3,271 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 국일 청소년부 여름수련회</title>
+    <title>초대장 로딩 중...</title>
     
-    <!-- SEO & Open Graph -->
-    <meta name="description" content="Love is... 당신을 초대합니다.">
-    <meta property="og:title" content="2026 국일 청소년부 여름수련회">
-    <meta property="og:description" content="Love is... 당신을 초대합니다.">
-    <meta property="og:image" content="assets/images/poster.jpg">
-    
-    <!-- PWA & Mobile Optimization -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f5f5f7">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    
-    <!-- 외부 라이브러리 (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- SEO 및 Open Graph (JS에서 동적 변경 예정이나 기본값 설정) -->
+    <meta name="description" content="수련회 초대장">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="수련회 초대장">
+    <meta property="og:description" content="수련회에 여러분을 초대합니다!">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+
+    <!-- Fonts: Pretendard (Apple 스타일) -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     
-    <style>
-        :root { --apple-blue: #0071e3; --apple-gray: #f5f5f7; }
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--apple-gray); color: #1d1d1f; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-        
-        /* Glassmorphism 효과 */
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .dark .glass { background: rgba(29, 29, 31, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* 애니메이션 준비 상태 */
-        .reveal { opacity: 0; transform: translateY(30px); }
-        
-        /* 카드 공통 스타일 */
-        .card-container { width: 100%; max-width: 500px; margin: 0 auto; padding: 0 20px; }
-        .card-base { border-radius: 30px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 24px; }
-        
-        /* 스크롤바 숨기기 */
-        ::-webkit-scrollbar { display: none; }
-    </style>
+    <!-- CSS 라이브러리: AOS (스크롤 애니메이션) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- 커스텀 스타일 -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- PWA 지원 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
 </head>
-<body class="transition-colors duration-500">
+<body>
 
-    <!-- Loading Screen -->
-    <div id="loader" class="fixed inset-0 z-[999] bg-white flex items-center justify-center">
-        <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+    <!-- 로딩 스크린 -->
+    <div id="loader" class="loader-wrapper">
+        <div class="loader"></div>
     </div>
 
-    <!-- Main Content Container -->
-    <main id="app" class="pb-20 opacity-0 transition-opacity duration-1000">
-        <!-- 카드가 동적으로 여기에 삽입됩니다 -->
-    </main>
+    <!-- 앱 렌더링 컨테이너 -->
+    <div id="app"></div>
 
-    <!-- Floating Action Button -->
-    <div class="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
-        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="w-12 h-12 glass rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-        </button>
-        <button id="btn-share" class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-        </button>
-    </div>
+    <!-- 외부 라이브러리 -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- 프로젝트 스크립트 -->
+    <script src="js/utils.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/app.js"></script>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // --- Core: CMS Engine ---
-        const CMSEngine = {
-            async init() {
-                try {
-                    const response = await fetch('config.json');
-                    const config = await response.json();
-                    this.render(config);
-                    this.setupSharing(config.siteSettings);
-                    this.completeLoading();
-                } catch (error) {
-                    console.error("데이터 로드 실패:", error);
-                    alert("초대장 데이터를 불러올 수 없습니다.");
-                }
-            },
-
-            render(config) {
-                const app = document.getElementById('app');
-                document.title = config.siteSettings.title;
-                
-                config.cards.forEach(card => {
-                    if (!card.visible) return;
-                    const cardElement = this.createCard(card);
-                    if (cardElement) app.appendChild(cardElement);
-                });
-
-                this.initAnimations();
-            },
-
-            createCard(card) {
-                const section = document.createElement('section');
-                section.className = `reveal card-container mb-12 ${card.type === 'hero' ? 'pt-20' : ''}`;
-                
-                const template = this.getTemplate(card);
-                section.innerHTML = template;
-                return section;
-            },
-
-            // --- Component Templates ---
-            getTemplate(card) {
-                const { type, data } = card;
-                switch (type) {
-                    case 'hero':
-                        const dDayStr = this.calculateDDay(data.targetDate);
-                        return `
-                            <div class="text-center py-10" style="background: ${data.bgGradient || 'none'}; border-radius: 40px;">
-                                <span class="inline-block bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold mb-4 shadow-lg animate-pulse">${dDayStr}</span>
-                                <p class="text-blue-600 font-bold mb-2 tracking-widest text-sm">${data.title}</p>
-                                <h1 class="text-5xl font-black mb-4 tracking-tighter">${data.mainTitle}</h1>
-                                <p class="text-gray-500 font-medium whitespace-pre-line">${data.subtitle}</p>
-                            </div>
-                        `;
-
-                    case 'text':
-                        return `
-                            <div class="card-base glass text-${data.textAlign || 'center'}">
-                                <h2 class="text-2xl font-bold mb-4 italic">${data.title}</h2>
-                                <p class="leading-relaxed text-gray-700 whitespace-pre-line font-medium">${data.body}</p>
-                            </div>
-                        `;
-
-                    case 'application':
-                        return `
-                            <div class="card-base glass text-center border-2 border-blue-500 shadow-blue-100">
-                                <h2 class="text-2xl font-bold mb-4">${data.title}</h2>
-                                <p class="mb-8 text-gray-500">${data.body}</p>
-                                <div class="bg-white p-4 rounded-3xl inline-block mb-8 shadow-inner">
-                                    <img src="${data.qrImage}" class="w-40 h-40 object-contain" alt="QR" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${data.link}'">
-                                </div>
-                                <a href="${data.link}" target="_blank" class="block w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-xl shadow-lg transform active:scale-95 transition-all">
-                                    ${data.buttonText}
-                                </a>
-                            </div>
-                        `;
-
-                    case 'info':
-                        const rows = data.details.map(d => `
-                            <div class="flex justify-between py-3 border-b border-gray-100 last:border-0">
-                                <span class="font-bold text-gray-400">${d.label}</span>
-                                <span class="font-bold text-right">${d.value}</span>
-                            </div>
-                        `).join('');
-                        return `
-                            <div class="card-base glass">
-                                <h2 class="text-2xl font-bold mb-6">${data.title}</h2>
-                                <div class="mb-8">${rows}</div>
-                                <div class="rounded-3xl overflow-hidden shadow-2xl h-60 mb-6 border border-gray-100">
-                                    <iframe src="${data.mapEmbedUrl}" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
-                                </div>
-                                <a href="${data.naverMapUrl}" target="_blank" class="flex items-center justify-center w-full bg-[#03C75A] text-white py-4 rounded-2xl font-bold shadow-lg">
-                                    🗺️ 네이버 지도에서 길찾기
-                                </a>
-                            </div>
-                        `;
-
-                    case 'poster':
-                        return `<img src="${data.image}" class="w-full rounded-[40px] shadow-2xl mb-8" alt="포스터">`;
-
-                    case 'schedule':
-                        return `
-                            <div class="card-base glass text-center">
-                                <h2 class="text-2xl font-bold mb-4 italic">📅 일정 안내</h2>
-                                <p class="mb-6 text-gray-500 font-medium">${data.infoText}</p>
-                                ${data.image ? `<img src="${data.image}" class="w-full rounded-2xl shadow-sm" alt="일정표">` : ''}
-                            </div>
-                        `;
-
-                    case 'video':
-                        const videoTag = data.videoType === 'youtube' 
-                            ? `<iframe src="${data.src}" class="w-full h-full border-0" allowfullscreen></iframe>`
-                            : `<video src="${data.src}" controls class="w-full h-full object-cover"></video>`;
-                        return `
-                            <div class="card-base glass p-0 overflow-hidden shadow-2xl">
-                                <div class="p-6 pb-2"><h2 class="text-xl font-bold italic">${data.title}</h2></div>
-                                <div class="aspect-video bg-black">${videoTag}</div>
-                            </div>
-                        `;
-
-                    case 'playlist':
-                        const frames = data.items.map(url => `
-                            <div class="rounded-2xl overflow-hidden shadow-lg aspect-video mb-4">
-                                <iframe src="${url}" class="w-full h-full border-0" allowfullscreen></iframe>
-                            </div>
-                        `).join('');
-                        return `
-                            <div class="card-base glass">
-                                <h2 class="text-2xl font-bold mb-6 italic">${data.title}</h2>
-                                ${frames}
-                            </div>
-                        `;
-
-                    case 'intro':
-                        return `
-                            <div class="card-base glass text-center">
-                                <h2 class="text-2xl font-bold mb-4">${data.title}</h2>
-                                <p class="leading-relaxed text-gray-600 mb-8 whitespace-pre-line">${data.body}</p>
-                                <a href="${data.instaLink}" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white rounded-2xl font-bold shadow-lg transform active:scale-95 transition-all">
-                                    📸 인스타그램
-                                </a>
-                            </div>
-                        `;
-
-                    default: return '';
-                }
-            },
-
-            // --- Utils ---
-            calculateDDay(dateStr) {
-                const target = new Date(dateStr);
-                const today = new Date();
-                today.setHours(0,0,0,0);
-                const diffTime = target - today;
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
-                if (diffDays > 0) return `D-${diffDays}`;
-                if (diffDays === 0) return `D-DAY 시작!`;
-                if (diffDays < 0 && diffDays > -3) return `행사 진행 중 🔥`;
-                return `행사 종료`;
-            },
-
-            initAnimations() {
-                gsap.utils.toArray('.reveal').forEach((elem) => {
-                    gsap.to(elem, {
-                        scrollTrigger: {
-                            trigger: elem,
-                            start: "top 85%",
-                            toggleActions: "play none none none"
-                        },
-                        opacity: 1,
-                        y: 0,
-                        duration: 1.2,
-                        ease: "power3.out"
-                    });
-                });
-            },
-
-            setupSharing(settings) {
-                document.getElementById('btn-share').addEventListener('click', async () => {
-                    if (navigator.share) {
-                        try {
-                            await navigator.share({
-                                title: settings.title,
-                                text: settings.description,
-                                url: window.location.href
-                            });
-                        } catch (e) {}
-                    } else {
-                        const url = window.location.href;
-                        navigator.clipboard.writeText(url);
-                        alert("링크가 복사되었습니다!");
-                    }
-                });
-            },
-
-            completeLoading() {
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('app').style.opacity = '1';
-                }, 500);
-            }
-        };
-
-        window.onload = () => CMSEngine.init();
+        // 로딩 화면 제어
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 800);
+        });
     </script>
 </body>
 </html>
