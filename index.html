@@ -2,219 +2,272 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 여름수련회 초대장</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 국일 청소년부 여름수련회</title>
+    
+    <!-- SEO & Open Graph -->
+    <meta name="description" content="Love is... 당신을 초대합니다.">
+    <meta property="og:title" content="2026 국일 청소년부 여름수련회">
+    <meta property="og:description" content="Love is... 당신을 초대합니다.">
+    <meta property="og:image" content="assets/images/poster.jpg">
+    
+    <!-- PWA & Mobile Optimization -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f5f5f7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- 외부 라이브러리 (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    
     <style>
-        body { font-family: 'Pretendard', sans-serif; background: #f5f5f7; color: #1d1d1f; word-break: keep-all; }
+        :root { --apple-blue: #0071e3; --apple-gray: #f5f5f7; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--apple-gray); color: #1d1d1f; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        
+        /* Glassmorphism 효과 */
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .dark .glass { background: rgba(29, 29, 31, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* 애니메이션 준비 상태 */
         .reveal { opacity: 0; transform: translateY(30px); }
-        .hero-grad { background: linear-gradient(180deg, #e0f2fe 0%, #f5f5f7 100%); }
+        
+        /* 카드 공통 스타일 */
+        .card-container { width: 100%; max-width: 500px; margin: 0 auto; padding: 0 20px; }
+        .card-base { border-radius: 30px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 24px; }
+        
+        /* 스크롤바 숨기기 */
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body>
-    <!-- Hero Section -->
-    <section class="hero-grad min-h-screen flex flex-col justify-center items-center text-center px-6">
-        <div id="dday-tag" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold mb-6 reveal">D-Day 계산중...</div>
-        <h1 id="hero-title" class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight reveal"></h1>
-        <p id="hero-subtitle" class="text-xl opacity-60 mb-12 reveal"></p>
-        <div class="reveal animate-bounce mt-10">
-            <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-        </div>
-    </section>
+<body class="transition-colors duration-500">
 
-    <div class="max-w-md mx-auto px-5 space-y-20 pb-32">
-        <!-- Welcome Message -->
-        <section class="reveal glass rounded-[40px] p-10 text-center shadow-xl">
-            <p id="welcome-text" class="text-lg leading-relaxed whitespace-pre-line font-medium"></p>
-        </section>
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 z-[999] bg-white flex items-center justify-center">
+        <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+    </div>
 
-        <!-- Event Info & Map -->
-        <section class="reveal space-y-6">
-            <div class="glass rounded-[40px] p-8 shadow-lg">
-                <h2 id="info-eventName" class="text-2xl font-bold mb-6 text-blue-600 italic"></h2>
-                <div class="space-y-4">
-                    <div class="flex items-start">
-                        <span class="mr-3">🗓️</span>
-                        <div><p class="font-bold">일시</p><p id="info-date" class="text-gray-500"></p></div>
-                    </div>
-                    <div class="flex items-start">
-                        <span class="mr-3">📍</span>
-                        <div><p class="font-bold">장소</p><p id="info-location" class="text-gray-500"></p></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="rounded-[30px] overflow-hidden shadow-2xl h-[300px] glass">
-                <iframe id="map-iframe" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-            
-            <a id="naver-map-btn" href="#" target="_blank" class="flex items-center justify-center w-full bg-[#03C75A] text-white py-5 rounded-3xl font-bold text-lg shadow-lg hover:scale-[1.02] transition-transform">
-                네이버 지도에서 길찾기
-            </a>
-        </section>
+    <!-- Main Content Container -->
+    <main id="app" class="pb-20 opacity-0 transition-opacity duration-1000">
+        <!-- 카드가 동적으로 여기에 삽입됩니다 -->
+    </main>
 
-        <!-- Main Poster -->
-        <section class="reveal">
-            <img id="poster-img" src="" class="w-full rounded-[40px] shadow-2xl" alt="포스터">
-        </section>
-
-        <!-- Schedule -->
-        <section class="reveal glass rounded-[40px] p-8 text-center">
-            <h3 class="text-xl font-bold mb-4 italic">📅 일정 안내</h3>
-            <p id="schedule-text" class="text-gray-500 mb-6"></p>
-            <img id="schedule-img" src="" class="w-full rounded-2xl shadow-sm hidden" alt="일정표">
-        </section>
-
-        <!-- Promo Video -->
-        <section id="video-section" class="reveal space-y-4">
-            <h3 class="text-2xl font-bold text-center italic">🎥 홍보 영상</h3>
-            <div id="video-container" class="rounded-[30px] overflow-hidden shadow-2xl aspect-video bg-black">
-                <!-- Video inserted here by JS -->
-            </div>
-        </section>
-
-        <!-- Playlists -->
-        <section class="reveal space-y-6">
-            <h3 class="text-2xl font-bold text-center italic">🎶 수련회 찬양</h3>
-            <div id="playlist-list" class="space-y-4"></div>
-        </section>
-
-        <!-- Church Intro -->
-        <section class="reveal glass rounded-[40px] p-10 text-center">
-            <p id="church-intro" class="leading-relaxed whitespace-pre-line font-medium"></p>
-            <div class="mt-8">
-                <a id="insta-link" href="#" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white rounded-2xl font-bold shadow-lg">
-                    인스타그램 보러가기
-                </a>
-            </div>
-        </section>
-
-        <!-- Application & QR -->
-        <section class="reveal glass rounded-[40px] p-10 text-center border-2 border-blue-100 shadow-2xl">
-            <h3 class="text-2xl font-bold mb-8 italic">JOIN US!</h3>
-            <div class="bg-white p-6 rounded-3xl inline-block mb-8 shadow-inner">
-                <img id="qr-img" src="" class="w-40 h-40" alt="QR">
-            </div>
-            <a id="apply-btn" href="#" target="_blank" class="block w-full bg-blue-600 text-white py-5 rounded-3xl font-bold text-xl shadow-lg">
-                신청서 작성하기
-            </a>
-        </section>
-
-        <footer class="reveal py-20 text-center opacity-40 text-sm">
-            <p>2026 국일 청소년부교회</p>
-            <p class="mt-2">All Rights Reserved.</p>
-        </footer>
+    <!-- Floating Action Button -->
+    <div class="fixed bottom-8 right-8 z-50 flex flex-col gap-3">
+        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="w-12 h-12 glass rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+        </button>
+        <button id="btn-share" class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+        </button>
     </div>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-async function init() {
-    const data = {
-        "hero": {
-            "title": "🌊WELCOME!🌊",
-            "subtitle": "너를 환영해! 올 여름, 가장 특별한 시간을 함께 하자!",
-            "targetDate": "2026-08-06"
-        },
-        "welcomeText": "처음이어도 괜찮아요🥰\n\n친구들과 함께 즐기고,\n맛있는 음식도 먹고,\n신나는 게임과 찬양,\n그리고 하나님을 만나는 특별한 시간이 준비되어 있어요!",
-        "info": {
-            "eventName": "2026 국일 청소년부교회 여름수련회",
-            "date": "2026.08.06(목)~08(토), 2박 3일",
-            "location": "경기 광주 곤지암교회",
-            "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.8351!2d127.2882!3d37.3585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDIxJzMwLjYiTiAxMjfCsDE3JzE3LjUiRQ!5e0!3m2!1sko!2skr!4v1620000000000",
-            "naverMapUrl": "https://naver.me/x0XwAqJG"
-        },
-        "images": {
-            "poster": "poster.jpg",
-            "schedule": "schedule.jpg",
-            "qr": "qr.png"
-        },
-        "video": {
-            "type": "local",
-            "url": "",
-            "localFile": "video.mp4"
-        },
-        "scheduleText": "추후 공개 예정!",
-        "playlists": [
-            "https://www.youtube.com/embed/videoseries?list=PLbgUYpyqh5KWo-RSbpTmkaw5X1UvpDFZo",
-            "https://www.youtube.com/embed/videoseries?list=PLbgUYpyqh5KVtqXhF8oF2xyboptyuuyI_"
-        ],
-        "churchIntro": "국일 청소년부교회는\n대한예수교장로회 통합 측으로\n하나님 안에서 즐겁게 예배하고\n함께 웃고\n함께 성장하는 공동체입니다.",
-        "links": {
-            "instagram": "https://www.instagram.com/kook1il._.teenagers",
-            "apply": "https://forms.gle/XzYggr6suUY8x9bE6"
-        }
-    };
-    render(data);
-    startAnimations();
-}
+        // --- Core: CMS Engine ---
+        const CMSEngine = {
+            async init() {
+                try {
+                    const response = await fetch('config.json');
+                    const config = await response.json();
+                    this.render(config);
+                    this.setupSharing(config.siteSettings);
+                    this.completeLoading();
+                } catch (error) {
+                    console.error("데이터 로드 실패:", error);
+                    alert("초대장 데이터를 불러올 수 없습니다.");
+                }
+            },
 
-        function render(data) {
-            // D-Day
-            const target = new Date(data.hero.targetDate);
-            const today = new Date();
-            today.setHours(0,0,0,0);
-            const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
-            const ddayTag = document.getElementById('dday-tag');
-            if(diff > 0) ddayTag.innerText = `D-${diff}`;
-            else if(diff === 0) ddayTag.innerText = `TODAY!`;
-            else ddayTag.innerText = `진행 중 🔥`;
-
-            // Text content
-            document.getElementById('hero-title').innerText = data.hero.title;
-            document.getElementById('hero-subtitle').innerText = data.hero.subtitle;
-            document.getElementById('welcome-text').innerText = data.welcomeText;
-            document.getElementById('info-eventName').innerText = data.info.eventName;
-            document.getElementById('info-date').innerText = data.info.date;
-            document.getElementById('info-location').innerText = data.info.location;
-            document.getElementById('schedule-text').innerText = data.scheduleText;
-            document.getElementById('church-intro').innerText = data.churchIntro;
-
-            // Links & Images
-            document.getElementById('map-iframe').src = data.info.mapEmbedUrl;
-            document.getElementById('naver-map-btn').href = data.info.naverMapUrl;
-            document.getElementById('poster-img').src = data.images.poster;
-            if(data.images.schedule) {
-                const sImg = document.getElementById('schedule-img');
-                sImg.src = data.images.schedule;
-                sImg.classList.remove('hidden');
-            }
-            document.getElementById('qr-img').src = data.images.qr;
-            document.getElementById('insta-link').href = data.links.instagram;
-            document.getElementById('apply-btn').href = data.links.apply;
-
-            // Video logic
-            const videoContainer = document.getElementById('video-container');
-            if(data.video.type === 'youtube') {
-                videoContainer.innerHTML = `<iframe src="${data.video.url}" class="w-full h-full border-0" allowfullscreen></iframe>`;
-            } else {
-                videoContainer.innerHTML = `<video src="${data.video.localFile}" controls class="w-full h-full object-cover"></video>`;
-            }
-
-            // Playlists
-            const pList = document.getElementById('playlist-list');
-            data.playlists.forEach(url => {
-                const div = document.createElement('div');
-                div.className = "rounded-3xl overflow-hidden shadow-lg aspect-video";
-                div.innerHTML = `<iframe src="${url}" class="w-full h-full border-0" allowfullscreen></iframe>`;
-                pList.appendChild(div);
-            });
-        }
-
-        function startAnimations() {
-            gsap.utils.toArray('.reveal').forEach(elem => {
-                gsap.to(elem, {
-                    scrollTrigger: { trigger: elem, start: "top 90%" },
-                    opacity: 1, y: 0, duration: 1, ease: "power2.out"
+            render(config) {
+                const app = document.getElementById('app');
+                document.title = config.siteSettings.title;
+                
+                config.cards.forEach(card => {
+                    if (!card.visible) return;
+                    const cardElement = this.createCard(card);
+                    if (cardElement) app.appendChild(cardElement);
                 });
-            });
-        }
 
-        window.onload = init;
+                this.initAnimations();
+            },
+
+            createCard(card) {
+                const section = document.createElement('section');
+                section.className = `reveal card-container mb-12 ${card.type === 'hero' ? 'pt-20' : ''}`;
+                
+                const template = this.getTemplate(card);
+                section.innerHTML = template;
+                return section;
+            },
+
+            // --- Component Templates ---
+            getTemplate(card) {
+                const { type, data } = card;
+                switch (type) {
+                    case 'hero':
+                        const dDayStr = this.calculateDDay(data.targetDate);
+                        return `
+                            <div class="text-center py-10" style="background: ${data.bgGradient || 'none'}; border-radius: 40px;">
+                                <span class="inline-block bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold mb-4 shadow-lg animate-pulse">${dDayStr}</span>
+                                <p class="text-blue-600 font-bold mb-2 tracking-widest text-sm">${data.title}</p>
+                                <h1 class="text-5xl font-black mb-4 tracking-tighter">${data.mainTitle}</h1>
+                                <p class="text-gray-500 font-medium whitespace-pre-line">${data.subtitle}</p>
+                            </div>
+                        `;
+
+                    case 'text':
+                        return `
+                            <div class="card-base glass text-${data.textAlign || 'center'}">
+                                <h2 class="text-2xl font-bold mb-4 italic">${data.title}</h2>
+                                <p class="leading-relaxed text-gray-700 whitespace-pre-line font-medium">${data.body}</p>
+                            </div>
+                        `;
+
+                    case 'application':
+                        return `
+                            <div class="card-base glass text-center border-2 border-blue-500 shadow-blue-100">
+                                <h2 class="text-2xl font-bold mb-4">${data.title}</h2>
+                                <p class="mb-8 text-gray-500">${data.body}</p>
+                                <div class="bg-white p-4 rounded-3xl inline-block mb-8 shadow-inner">
+                                    <img src="${data.qrImage}" class="w-40 h-40 object-contain" alt="QR" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${data.link}'">
+                                </div>
+                                <a href="${data.link}" target="_blank" class="block w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-xl shadow-lg transform active:scale-95 transition-all">
+                                    ${data.buttonText}
+                                </a>
+                            </div>
+                        `;
+
+                    case 'info':
+                        const rows = data.details.map(d => `
+                            <div class="flex justify-between py-3 border-b border-gray-100 last:border-0">
+                                <span class="font-bold text-gray-400">${d.label}</span>
+                                <span class="font-bold text-right">${d.value}</span>
+                            </div>
+                        `).join('');
+                        return `
+                            <div class="card-base glass">
+                                <h2 class="text-2xl font-bold mb-6">${data.title}</h2>
+                                <div class="mb-8">${rows}</div>
+                                <div class="rounded-3xl overflow-hidden shadow-2xl h-60 mb-6 border border-gray-100">
+                                    <iframe src="${data.mapEmbedUrl}" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                                <a href="${data.naverMapUrl}" target="_blank" class="flex items-center justify-center w-full bg-[#03C75A] text-white py-4 rounded-2xl font-bold shadow-lg">
+                                    🗺️ 네이버 지도에서 길찾기
+                                </a>
+                            </div>
+                        `;
+
+                    case 'poster':
+                        return `<img src="${data.image}" class="w-full rounded-[40px] shadow-2xl mb-8" alt="포스터">`;
+
+                    case 'schedule':
+                        return `
+                            <div class="card-base glass text-center">
+                                <h2 class="text-2xl font-bold mb-4 italic">📅 일정 안내</h2>
+                                <p class="mb-6 text-gray-500 font-medium">${data.infoText}</p>
+                                ${data.image ? `<img src="${data.image}" class="w-full rounded-2xl shadow-sm" alt="일정표">` : ''}
+                            </div>
+                        `;
+
+                    case 'video':
+                        const videoTag = data.videoType === 'youtube' 
+                            ? `<iframe src="${data.src}" class="w-full h-full border-0" allowfullscreen></iframe>`
+                            : `<video src="${data.src}" controls class="w-full h-full object-cover"></video>`;
+                        return `
+                            <div class="card-base glass p-0 overflow-hidden shadow-2xl">
+                                <div class="p-6 pb-2"><h2 class="text-xl font-bold italic">${data.title}</h2></div>
+                                <div class="aspect-video bg-black">${videoTag}</div>
+                            </div>
+                        `;
+
+                    case 'playlist':
+                        const frames = data.items.map(url => `
+                            <div class="rounded-2xl overflow-hidden shadow-lg aspect-video mb-4">
+                                <iframe src="${url}" class="w-full h-full border-0" allowfullscreen></iframe>
+                            </div>
+                        `).join('');
+                        return `
+                            <div class="card-base glass">
+                                <h2 class="text-2xl font-bold mb-6 italic">${data.title}</h2>
+                                ${frames}
+                            </div>
+                        `;
+
+                    case 'intro':
+                        return `
+                            <div class="card-base glass text-center">
+                                <h2 class="text-2xl font-bold mb-4">${data.title}</h2>
+                                <p class="leading-relaxed text-gray-600 mb-8 whitespace-pre-line">${data.body}</p>
+                                <a href="${data.instaLink}" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white rounded-2xl font-bold shadow-lg transform active:scale-95 transition-all">
+                                    📸 인스타그램
+                                </a>
+                            </div>
+                        `;
+
+                    default: return '';
+                }
+            },
+
+            // --- Utils ---
+            calculateDDay(dateStr) {
+                const target = new Date(dateStr);
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const diffTime = target - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 0) return `D-${diffDays}`;
+                if (diffDays === 0) return `D-DAY 시작!`;
+                if (diffDays < 0 && diffDays > -3) return `행사 진행 중 🔥`;
+                return `행사 종료`;
+            },
+
+            initAnimations() {
+                gsap.utils.toArray('.reveal').forEach((elem) => {
+                    gsap.to(elem, {
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        },
+                        opacity: 1,
+                        y: 0,
+                        duration: 1.2,
+                        ease: "power3.out"
+                    });
+                });
+            },
+
+            setupSharing(settings) {
+                document.getElementById('btn-share').addEventListener('click', async () => {
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: settings.title,
+                                text: settings.description,
+                                url: window.location.href
+                            });
+                        } catch (e) {}
+                    } else {
+                        const url = window.location.href;
+                        navigator.clipboard.writeText(url);
+                        alert("링크가 복사되었습니다!");
+                    }
+                });
+            },
+
+            completeLoading() {
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('app').style.opacity = '1';
+                }, 500);
+            }
+        };
+
+        window.onload = () => CMSEngine.init();
     </script>
 </body>
 </html>

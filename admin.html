@@ -2,238 +2,240 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>초대장 관리자 - Apple 설정 스타일</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초대장 CMS 관리자</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
-        body { font-family: 'Pretendard', sans-serif; background: #f5f5f7; }
-        .card { background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05); padding: 24px; }
-        .input-apple { width: 100%; background: #fbfbfd; border: 1px solid #d2d2d7; border-radius: 12px; padding: 12px; transition: all 0.2s; }
-        .input-apple:focus { border-color: #0071e3; outline: none; box-shadow: 0 0 0 4px rgba(0,113,227,0.1); }
-        label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; color: #86868b; }
-        .btn-blue { background: #0071e3; color: white; padding: 12px 24px; border-radius: 12px; font-weight: 600; }
-        .preview-box { background: #eee; border-radius: 12px; overflow: hidden; margin-top: 10px; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f5f5f7; color: #1d1d1f; height: 100vh; overflow: hidden; }
+        .sidebar { width: 320px; border-right: 1px solid #d2d2d7; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); }
+        .editor-pane { flex: 1; overflow-y: auto; background: white; }
+        .apple-card { background: #ffffff; border-radius: 12px; border: 1px solid #d2d2d7; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .input-apple { width: 100%; border: 1px solid #d2d2d7; border-radius: 8px; padding: 10px 12px; font-size: 14px; transition: all 0.2s; }
+        .input-apple:focus { outline: none; border-color: #0071e3; ring: 2px; ring-color: #0071e3; }
+        .card-item { cursor: pointer; transition: all 0.2s; border-radius: 10px; margin-bottom: 4px; }
+        .card-item.active { background: #0071e3; color: white; }
+        .card-item:hover:not(.active) { background: #e8e8ed; }
+        .btn-primary { background: #0071e3; color: white; border-radius: 8px; padding: 8px 16px; font-weight: 500; font-size: 14px; }
+        .btn-secondary { background: #e8e8ed; color: #1d1d1f; border-radius: 8px; padding: 8px 16px; font-weight: 500; font-size: 14px; }
+        .label-apple { display: block; font-size: 13px; font-weight: 600; color: #86868b; margin-bottom: 6px; }
+        
+        /* 드래그 앤 드롭 시각화 */
+        .dragging { opacity: 0.5; background: #e0f2fe; }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <div class="max-w-4xl mx-auto">
-        <header class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-bold tracking-tight">⚙️ 초대장 설정</h1>
-            <div class="flex gap-2">
-                <button onclick="document.getElementById('load-input').click()" class="bg-gray-200 px-4 py-2 rounded-xl text-sm font-semibold">기존 설정 불러오기</button>
-                <input type="file" id="load-input" class="hidden" accept=".json" onchange="loadConfigFile(this)">
-                <button onclick="window.open('index.html', '_blank')" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-xl text-sm font-semibold">미리보기</button>
-            </div>
-        </header>
+<body class="flex">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Hero -->
-            <div class="card space-y-4">
-                <h3 class="font-bold text-lg mb-2">메인(Hero) 및 디데이</h3>
-                <div><label>메인 제목</label><input id="hero-title" class="input-apple"></div>
-                <div><label>부제목</label><input id="hero-subtitle" class="input-apple"></div>
-                <div><label>수련회 시작일 (디데이용)</label><input type="date" id="hero-date" class="input-apple"></div>
-            </div>
-
-            <!-- Welcome -->
-            <div class="card space-y-4">
-                <h3 class="font-bold text-lg mb-2">환영 문구</h3>
-                <textarea id="welcome-text" class="input-apple h-32"></textarea>
-            </div>
-
-            <!-- Info -->
-            <div class="card col-span-1 md:col-span-2 space-y-4">
-                <h3 class="font-bold text-lg mb-2">행사 정보 및 지도</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div><label>행사명</label><input id="info-name" class="input-apple"></div>
-                    <div><label>날짜 안내</label><input id="info-date" class="input-apple"></div>
-                    <div><label>장소</label><input id="info-loc" class="input-apple"></div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label>Google Maps Embed URL</label>
-                        <input id="info-map" class="input-apple" oninput="updateMapPreview(this.value)">
-                        <div id="map-preview" class="preview-box">지도 미리보기</div>
-                    </div>
-                    <div>
-                        <label>네이버 지도 길찾기 URL</label>
-                        <input id="info-naver" class="input-apple">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Files -->
-            <div class="card space-y-6">
-                <h3 class="font-bold text-lg mb-2">이미지 업로드 (미리보기)</h3>
-                <div>
-                    <label>포스터 (poster.jpg)</label>
-                    <input type="file" onchange="previewImg(this, 'poster-p')" class="text-xs">
-                    <div class="preview-box"><img id="poster-p" class="max-h-40"></div>
-                </div>
-                <div>
-                    <label>일정표 (schedule.jpg)</label>
-                    <input type="file" onchange="previewImg(this, 'schedule-p')" class="text-xs">
-                    <div class="preview-box"><img id="schedule-p" class="max-h-40"></div>
-                </div>
-                <div>
-                    <label>신청 QR (qr.png)</label>
-                    <input type="file" onchange="previewImg(this, 'qr-p')" class="text-xs">
-                    <div class="preview-box"><img id="qr-p" class="max-h-20"></div>
-                </div>
-            </div>
-
-            <!-- Video -->
-            <div class="card space-y-4">
-                <h3 class="font-bold text-lg mb-2">홍보 영상</h3>
-                <div>
-                    <label>방식 선택</label>
-                    <select id="video-type" class="input-apple" onchange="toggleVideoInput(this.value)">
-                        <option value="youtube">유튜브 링크</option>
-                        <option value="local">MP4 파일 직접 업로드</option>
-                    </select>
-                </div>
-                <div id="yt-input">
-                    <label>유튜브 Embed URL</label>
-                    <input id="video-url" class="input-apple" placeholder="https://www.youtube.com/embed/...">
-                </div>
-                <div id="local-input" class="hidden">
-                    <label>MP4 파일 선택</label>
-                    <input type="file" accept="video/mp4" onchange="previewVideo(this)" class="text-xs">
-                    <video id="video-p" class="w-full mt-2 hidden" controls></video>
-                </div>
-            </div>
-
-            <!-- Playlists -->
-            <div class="card col-span-1 md:col-span-2">
-                <h3 class="font-bold text-lg mb-4">찬양 플레이리스트 관리</h3>
-                <div id="playlist-container" class="space-y-2 mb-4"></div>
-                <button onclick="addPlaylistRow('')" class="text-blue-600 text-sm font-bold">+ 링크 추가</button>
-            </div>
-
-            <!-- Final Links -->
-            <div class="card col-span-1 md:col-span-2 space-y-4">
-                <h3 class="font-bold text-lg mb-2">기타 정보 및 링크</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label>일정 안내 문구</label><input id="schedule-txt" class="input-apple"></div>
-                    <div><label>인스타그램 링크</label><input id="link-insta" class="input-apple"></div>
-                    <div><label>신청서 링크 (구글폼 등)</label><input id="link-apply" class="input-apple"></div>
-                    <div class="md:col-span-2"><label>교회 소개</label><textarea id="intro-txt" class="input-apple h-24"></textarea></div>
-                </div>
-            </div>
+    <!-- Sidebar: Card List -->
+    <aside class="sidebar flex flex-col h-full">
+        <div class="p-6 border-b border-gray-200">
+            <h1 class="text-xl font-bold tracking-tight">CMS 대시보드</h1>
+            <p class="text-xs text-gray-400 mt-1">2026 수련회 초대장 편집</p>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto p-4" id="card-list">
+            <!-- 카드 리스트 아이템이 여기에 렌더링됨 -->
         </div>
 
-        <div class="mt-10 pb-20">
-            <button onclick="downloadJSON()" class="btn-blue w-full shadow-xl transform active:scale-95 transition-all">설정 저장 및 config.json 다운로드</button>
-            <p class="text-center text-xs text-gray-400 mt-4">다운로드한 파일을 index.html과 같은 위치에 저장하세요.</p>
+        <div class="p-4 border-t border-gray-200 space-y-2">
+            <button onclick="AdminApp.addCard()" class="w-full btn-secondary flex items-center justify-center gap-2">
+                <span>+ 새 카드 추가</span>
+            </button>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="AdminApp.exportJSON()" class="btn-primary">저장 (JSON)</button>
+                <button onclick="AdminApp.importJSON()" class="btn-secondary">불러오기</button>
+            </div>
+            <button onclick="window.open('index.html', '_blank')" class="w-full text-xs text-blue-600 font-bold py-2 text-center underline italic">초대장 미리보기 ↗</button>
         </div>
-    </div>
+    </aside>
+
+    <!-- Editor Pane -->
+    <main class="editor-pane p-10">
+        <div id="editor-content" class="max-w-2xl mx-auto">
+            <div class="text-center py-20 text-gray-400">
+                <svg class="w-16 h-16 mx-auto mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                <p>편집할 카드를 왼쪽에서 선택하거나<br>새 카드를 추가해주세요.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Hidden Input for Loading File -->
+    <input type="file" id="file-input" class="hidden" accept=".json" onchange="AdminApp.handleFileSelect(event)">
 
     <script>
-        // 초기 데이터 로드 (기본값)
-        let config = {};
+        // --- CMS State Management ---
+        const AdminApp = {
+            config: { siteSettings: {}, cards: [] },
+            currentIndex: -1,
 
-        function addPlaylistRow(val) {
-            const container = document.getElementById('playlist-container');
-            const div = document.createElement('div');
-            div.className = "flex gap-2";
-            div.innerHTML = `<input class="input-apple playlist-item" value="${val}"><button onclick="this.parentElement.remove()" class="text-red-500 px-2">✕</button>`;
-            container.appendChild(div);
-        }
-
-        function toggleVideoInput(type) {
-            document.getElementById('yt-input').classList.toggle('hidden', type !== 'youtube');
-            document.getElementById('local-input').classList.toggle('hidden', type !== 'local');
-        }
-
-        function previewImg(input, targetId) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = e => document.getElementById(targetId).src = e.target.result;
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function previewVideo(input) {
-            if (input.files && input.files[0]) {
-                const video = document.getElementById('video-p');
-                video.src = URL.createObjectURL(input.files[0]);
-                video.classList.remove('hidden');
-            }
-        }
-
-        function updateMapPreview(url) {
-            const div = document.getElementById('map-preview');
-            if(url.includes('http')) div.innerHTML = `<iframe src="${url}" class="w-full h-full border-0"></iframe>`;
-        }
-
-        function downloadJSON() {
-            const data = {
-                hero: {
-                    title: document.getElementById('hero-title').value,
-                    subtitle: document.getElementById('hero-subtitle').value,
-                    targetDate: document.getElementById('hero-date').value
-                },
-                welcomeText: document.getElementById('welcome-text').value,
-                info: {
-                    eventName: document.getElementById('info-name').value,
-                    date: document.getElementById('info-date').value,
-                    location: document.getElementById('info-loc').value,
-                    mapEmbedUrl: document.getElementById('info-map').value,
-                    naverMapUrl: document.getElementById('info-naver').value
-                },
-                images: {
-                    poster: "poster.jpg",
-                    schedule: "schedule.jpg",
-                    qr: "qr.png"
-                },
-                video: {
-                    type: document.getElementById('video-type').value,
-                    url: document.getElementById('video-url').value,
-                    localFile: "video.mp4"
-                },
-                scheduleText: document.getElementById('schedule-txt').value,
-                playlists: Array.from(document.querySelectorAll('.playlist-item')).map(i => i.value),
-                churchIntro: document.getElementById('intro-txt').value,
-                links: {
-                    instagram: document.getElementById('link-insta').value,
-                    apply: document.getElementById('link-apply').value
+            async init() {
+                try {
+                    const res = await fetch('config.json');
+                    this.config = await res.json();
+                } catch (e) {
+                    this.config = { siteSettings: { title: "새 초대장" }, cards: [] };
                 }
-            };
+                this.renderSidebar();
+            },
 
-            const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = "config.json";
-            a.click();
-        }
+            // --- UI Rendering ---
+            renderSidebar() {
+                const list = document.getElementById('card-list');
+                list.innerHTML = '';
+                this.config.cards.forEach((card, index) => {
+                    const div = document.createElement('div');
+                    div.className = `card-item p-3 flex items-center justify-between ${this.currentIndex === index ? 'active' : ''}`;
+                    div.draggable = true;
+                    div.innerHTML = `
+                        <div class="flex items-center gap-3 overflow-hidden" onclick="AdminApp.selectCard(${index})">
+                            <span class="text-lg">${this.getIcon(card.type)}</span>
+                            <div class="truncate">
+                                <p class="text-sm font-bold truncate">${card.data.title || card.type.toUpperCase()}</p>
+                                <p class="text-[10px] opacity-60 uppercase tracking-tighter">${card.type}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="AdminApp.moveCard(${index}, -1)" class="p-1 hover:bg-black/10 rounded">▲</button>
+                            <button onclick="AdminApp.deleteCard(${index})" class="p-1 hover:bg-red-500 rounded text-xs">✕</button>
+                        </div>
+                    `;
+                    div.addEventListener('dragstart', () => div.classList.add('dragging'));
+                    div.addEventListener('dragend', () => div.classList.remove('dragging'));
+                    list.appendChild(div);
+                });
+            },
 
-        function loadConfigFile(input) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const data = JSON.parse(e.target.result);
-                document.getElementById('hero-title').value = data.hero.title;
-                document.getElementById('hero-subtitle').value = data.hero.subtitle;
-                document.getElementById('hero-date').value = data.hero.targetDate;
-                document.getElementById('welcome-text').value = data.welcomeText;
-                document.getElementById('info-name').value = data.info.eventName;
-                document.getElementById('info-date').value = data.info.date;
-                document.getElementById('info-loc').value = data.info.location;
-                document.getElementById('info-map').value = data.info.mapEmbedUrl;
-                document.getElementById('info-naver').value = data.info.naverMapUrl;
-                document.getElementById('video-type').value = data.video.type;
-                document.getElementById('video-url').value = data.video.url;
-                document.getElementById('schedule-txt').value = data.scheduleText;
-                document.getElementById('link-insta').value = data.links.instagram;
-                document.getElementById('link-apply').value = data.links.apply;
-                document.getElementById('intro-txt').value = data.churchIntro;
+            getIcon(type) {
+                const icons = { hero: '🌊', text: '📝', application: '✅', info: '📍', poster: '🖼️', schedule: '📅', video: '🎥', playlist: '🎶', intro: '⛪' };
+                return icons[type] || '📄';
+            },
+
+            selectCard(index) {
+                this.currentIndex = index;
+                this.renderSidebar();
+                this.renderEditor();
+            },
+
+            renderEditor() {
+                const container = document.getElementById('editor-content');
+                const card = this.config.cards[this.currentIndex];
+                if (!card) return;
+
+                let formHtml = `<div class="mb-10"><h2 class="text-3xl font-black tracking-tight">${card.type.toUpperCase()} 설정</h2><p class="text-gray-400">카드의 세부 정보를 실시간으로 수정합니다.</p></div>`;
                 
-                document.getElementById('playlist-container').innerHTML = '';
-                data.playlists.forEach(p => addPlaylistRow(p));
-                updateMapPreview(data.info.mapEmbedUrl);
-                toggleVideoInput(data.video.type);
-            };
-            reader.readAsText(input.files[0]);
-        }
+                // 공통 필드: 제목
+                if (card.data.hasOwnProperty('title')) {
+                    formHtml += this.createField('title', '카드 제목', card.data.title);
+                }
+
+                // 타입별 필드 동적 생성
+                switch(card.type) {
+                    case 'hero':
+                        formHtml += this.createField('mainTitle', '메인 타이틀', card.data.mainTitle);
+                        formHtml += this.createField('subtitle', '부제목 (내용)', card.data.subtitle, 'textarea');
+                        formHtml += this.createField('targetDate', 'D-DAY 기준 날짜', card.data.targetDate, 'date');
+                        break;
+                    case 'text':
+                    case 'intro':
+                        formHtml += this.createField('body', '본문 내용', card.data.body, 'textarea');
+                        break;
+                    case 'application':
+                        formHtml += this.createField('buttonText', '버튼 텍스트', card.data.buttonText);
+                        formHtml += this.createField('link', '신청 링크(Google Form 등)', card.data.link);
+                        break;
+                    case 'info':
+                        formHtml += this.createField('mapEmbedUrl', 'Google Maps Embed URL', card.data.mapEmbedUrl);
+                        formHtml += this.createField('naverMapUrl', '네이버 지도 링크', card.data.naverMapUrl);
+                        break;
+                    case 'video':
+                        formHtml += this.createField('videoType', '영상 타입 (youtube / local)', card.data.videoType);
+                        formHtml += this.createField('src', '영상 경로 또는 URL', card.data.src);
+                        break;
+                }
+
+                formHtml += `<div class="mt-10 p-6 bg-blue-50 rounded-2xl border border-blue-100"><p class="text-sm text-blue-800 font-medium italic">💡 팁: 내용은 입력 즉시 자동으로 저장(메모리)됩니다. 모든 작업 후 '저장(JSON)' 버튼을 눌러주세요.</p></div>`;
+
+                container.innerHTML = formHtml;
+            },
+
+            createField(key, label, value, type = 'text') {
+                const input = type === 'textarea' 
+                    ? `<textarea class="input-apple h-32" oninput="AdminApp.updateData('${key}', this.value)">${value}</textarea>`
+                    : `<input type="${type}" class="input-apple" value="${value}" oninput="AdminApp.updateData('${key}', this.value)">`;
+                
+                return `<div class="mb-6"><label class="label-apple">${label}</label>${input}</div>`;
+            },
+
+            // --- Data Actions ---
+            updateData(key, value) {
+                this.config.cards[this.currentIndex].data[key] = value;
+                // 사이드바 실시간 업데이트 (제목 변경 시)
+                if (key === 'title') this.renderSidebar();
+            },
+
+            addCard() {
+                const type = prompt("추가할 카드 타입을 입력하세요 (hero, text, application, info, poster, video, playlist, intro)", "text");
+                if (!type) return;
+                
+                const newCard = {
+                    id: 'card_' + Date.now(),
+                    type: type,
+                    visible: true,
+                    data: { title: "새로운 " + type + " 카드", body: "내용을 입력하세요." }
+                };
+                this.config.cards.push(newCard);
+                this.selectCard(this.config.cards.length - 1);
+            },
+
+            deleteCard(index) {
+                if (confirm('정말 이 카드를 삭제할까요?')) {
+                    this.config.cards.splice(index, 1);
+                    this.currentIndex = -1;
+                    this.renderSidebar();
+                    document.getElementById('editor-content').innerHTML = '<div class="text-center py-20 text-gray-400">카드를 선택하세요.</div>';
+                }
+            },
+
+            moveCard(index, step) {
+                const newIndex = index + step;
+                if (newIndex < 0 || newIndex >= this.config.cards.length) return;
+                const temp = this.config.cards[index];
+                this.config.cards[index] = this.config.cards[newIndex];
+                this.config.cards[newIndex] = temp;
+                this.currentIndex = newIndex;
+                this.renderSidebar();
+            },
+
+            // --- File I/O ---
+            exportJSON() {
+                const data = JSON.stringify(this.config, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'config.json';
+                a.click();
+            },
+
+            importJSON() {
+                document.getElementById('file-input').click();
+            },
+
+            handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    this.config = JSON.parse(event.target.result);
+                    this.currentIndex = -1;
+                    this.renderSidebar();
+                    alert("데이터를 성공적으로 불러왔습니다.");
+                };
+                reader.readAsText(file);
+            }
+        };
+
+        window.onload = () => AdminApp.init();
     </script>
 </body>
 </html>
