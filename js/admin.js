@@ -57,17 +57,66 @@ function editCard(id) {
     renderCardList();
 
     let html = `<div class="editor-form"><h3>${card.type} 편집</h3>`;
+    
     for (const key in card.data) {
         const val = card.data[key];
-        html += `
-            <div class="field-group">
-                <label>${key}</label>
-                <input type="text" value="${val}" oninput="updateData('${card.id}', 'data.${key}', this.value)">
-            </div>`;
+
+        // 1. 플레이리스트(items) 처리
+        if (key === 'items' && Array.isArray(val)) {
+            html += `<div class="field-group"><label>찬양 목록</label><div id="playlist-items-container">`;
+            val.forEach((item, index) => {
+                html += `
+                    <div style="display:flex; gap:5px; margin-bottom:10px; border:1px solid #eee; padding:10px; border-radius:8px;">
+                        <div style="flex:1">
+                            <input type="text" placeholder="찬양 제목" value="${item.title}" 
+                                   oninput="updatePlaylistItem('${card.id}', ${index}, 'title', this.value)" style="margin-bottom:5px;">
+                            <input type="text" placeholder="유튜브 링크 (https://...)" value="${item.url}" 
+                                   oninput="updatePlaylistItem('${card.id}', ${index}, 'url', this.value)">
+                        </div>
+                        <button onclick="removePlaylistItem('${card.id}', ${index})" style="background:#ff3b30; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button>
+                    </div>`;
+            });
+            html += `</div><button onclick="addPlaylistItem('${card.id}')" style="width:100%; padding:10px; background:#34c759; color:white; border:none; border-radius:8px; cursor:pointer; margin-top:5px;">+ 찬양 추가하기</button></div>`;
+        } 
+        // 2. 긴 문장(본문) 처리
+        else if (key === 'content' || key === 'description') {
+            html += `
+                <div class="field-group">
+                    <label>${key}</label>
+                    <textarea oninput="updateData('${card.id}', 'data.${key}', this.value)" style="width:100%; height:100px;">${val}</textarea>
+                </div>`;
+        } 
+        // 3. 일반 텍스트 처리
+        else {
+            html += `
+                <div class="field-group">
+                    <label>${key}</label>
+                    <input type="text" value="${val}" oninput="updateData('${card.id}', 'data.${key}', this.value)">
+                </div>`;
+        }
     }
     html += `</div>`;
     panel.innerHTML = html;
 }
+
+// --- 플레이리스트 조작 함수들 추가 ---
+
+window.updatePlaylistItem = function(cardId, index, field, value) {
+    const card = currentConfig.cards.find(c => c.id === cardId);
+    card.data.items[index][field] = value;
+};
+
+window.addPlaylistItem = function(cardId) {
+    const card = currentConfig.cards.find(c => c.id === cardId);
+    card.data.items.push({ title: "", url: "" });
+    editCard(cardId); // 화면 새로고침
+};
+
+window.removePlaylistItem = function(cardId, index) {
+    const card = currentConfig.cards.find(c => c.id === cardId);
+    card.data.items.splice(index, 1);
+    editCard(cardId); // 화면 새로고침
+};
 
 function updateData(id, path, value) {
     const card = currentConfig.cards.find(c => c.id === id);
