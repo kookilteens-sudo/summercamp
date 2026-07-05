@@ -2,59 +2,24 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>초대장 로딩 중...</title>
-    
-    <!-- SEO 및 Open Graph (JS에서 동적 변경 예정이나 기본값 설정) -->
-    <meta name="description" content="수련회 초대장">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="수련회 초대장">
-    <meta property="og:description" content="수련회에 여러분을 초대합니다!">
-    <meta property="og:image" content="assets/images/og-image.jpg">
-
-    <!-- Fonts: Pretendard (Apple 스타일) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수련회 초대장</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-    
-    <!-- CSS 라이브러리: AOS (스크롤 애니메이션) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- 커스텀 스타일 -->
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- PWA 지원 -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#6366f1">
-    <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-
-    <!-- 로딩 스크린 -->
-    <div id="loader" class="loader-wrapper">
-        <div class="loader"></div>
-    </div>
-
-    <!-- 앱 렌더링 컨테이너 -->
     <div id="app"></div>
-
-    <!-- 외부 라이브러리 -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <!-- 프로젝트 스크립트 -->
-    <script src="js/utils.js"></script>
-    <script src="js/renderer.js"></script>
-    <script src="js/app.js"></script>
-
+    <script src="./js/utils.js"></script>
+    <script src="./js/renderer.js"></script>
     <script>
-        // 로딩 화면 제어
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
-            }, 800);
-        });
+        fetch('./config.json')
+            .then(res => res.json())
+            .then(config => {
+                const saved = localStorage.getItem('retreat_config');
+                Renderer.init(saved ? JSON.parse(saved) : config);
+            });
     </script>
 </body>
 </html>
