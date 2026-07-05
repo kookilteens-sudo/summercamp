@@ -116,7 +116,7 @@ window.removePlaylistItem = function(cardId, index) {
     const card = currentConfig.cards.find(c => c.id === cardId);
     card.data.items.splice(index, 1);
     editCard(cardId); // 화면 새로고침
-};
+}
 
 function updateData(id, path, value) {
     const card = currentConfig.cards.find(c => c.id === id);
